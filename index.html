@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hex Game Board</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+.board {
+  --size: 40px;
+}
+.row {
+  display: flex;
+  height: calc(var(--size) * 0.866);
+}
+.hex {
+  width: var(--size);
+  height: calc(var(--size) * 0.866);
+  background: #eee;
+  margin: 0 -1px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 2px solid #333;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+<div class="board">
+  <div class="row" style="margin-left: calc(var(--size) * 0.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 0.5);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 1.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 1.5);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 2.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 2.5);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 3.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 3.5);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 4.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 4.5);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 5.0);">
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+    <div class="hex"></div>
+  </div>
+</div>
+</body>
+</html>
