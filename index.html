@@ -10,6 +10,16 @@ body {
   justify-content: center;
   margin-top: 40px;
 }
+#controls {
+  text-align: center;
+  margin-right: 20px;
+}
+#controls select,
+#controls input,
+#controls button {
+  margin: 0 5px;
+  font-size: 16px;
+}
 .board {
   --size: 40px;
   position: relative;
@@ -83,6 +93,24 @@ body {
 </style>
 </head>
 <body>
+<div id="controls">
+  <label>Colore:
+    <select id="colorSelect">
+      <option value="red">Rosso</option>
+      <option value="black">Nero</option>
+    </select>
+  </label>
+  <label>Chi inizia:
+    <select id="startSelect">
+      <option value="human">Umano</option>
+      <option value="computer">Computer</option>
+    </select>
+  </label>
+  <label>x:
+    <input type="number" id="depthInput" min="1" value="1" style="width:3em;">
+  </label>
+  <button id="startBtn">Inizia gioco</button>
+</div>
 <div class="board">
   <div class="edge red top">▼</div>
   <div class="edge red bottom">▲</div>
@@ -260,6 +288,13 @@ const SIZE = 11;
 const board = Array.from({ length: SIZE }, () => Array(SIZE).fill(''));
 const cells = document.querySelectorAll('.cell');
 
+const colorSelect = document.getElementById('colorSelect');
+const startSelect = document.getElementById('startSelect');
+const depthInput = document.getElementById('depthInput');
+const startBtn = document.getElementById('startBtn');
+
+let gameActive = false;
+
 cells.forEach((cell, i) => {
   cell.dataset.r = Math.floor(i / SIZE);
   cell.dataset.c = i % SIZE;
@@ -270,18 +305,30 @@ let computerColor = 'black';
 let humanTurn = true;
 let depthLimit = 2;
 
-function setupGame() {
-  const colorInput = prompt('Scegli il colore: red o black?', 'red');
-  if (colorInput && colorInput.toLowerCase().startsWith('b')) {
-    humanColor = 'black';
-    computerColor = 'red';
-  }
-  humanTurn = confirm('Vuoi iniziare tu?');
-  const x = parseInt(prompt('Inserisci x (analisi = 2*x mosse)', '1'));
-  if (!isNaN(x) && x > 0) depthLimit = x * 2;
-  if (!humanTurn) {
-    setTimeout(computerMove, 100);
-  }
+function enableControls(enable) {
+  colorSelect.disabled = !enable;
+  startSelect.disabled = !enable;
+  depthInput.disabled = !enable;
+  startBtn.disabled = !enable;
+}
+
+function startGame() {
+  humanColor = colorSelect.value;
+  computerColor = humanColor === 'red' ? 'black' : 'red';
+  humanTurn = startSelect.value === 'human';
+  const x = parseInt(depthInput.value) || 1;
+  depthLimit = x * 2;
+  board.forEach(row => row.fill(''));
+  cells.forEach(cell => (cell.innerHTML = ''));
+  gameActive = true;
+  enableControls(false);
+  if (!humanTurn) setTimeout(computerMove, 100);
+}
+
+function endGame(msg) {
+  alert(msg);
+  enableControls(true);
+  gameActive = false;
 }
 
 function neighbors(r, c) {
@@ -393,7 +440,7 @@ function placeBall(cell, color) {
 }
 
 function handleClick(e) {
-  if (!humanTurn) return;
+  if (!gameActive || !humanTurn) return;
   const cell = e.currentTarget;
   const r = parseInt(cell.dataset.r);
   const c = parseInt(cell.dataset.c);
@@ -405,7 +452,7 @@ function handleClick(e) {
   placeBall(cell, humanColor);
   playDing();
   if (checkWin(humanColor)) {
-    alert('Hai vinto!');
+    endGame('Hai vinto!');
     return;
   }
   humanTurn = false;
@@ -415,7 +462,7 @@ function handleClick(e) {
 cells.forEach(cell => cell.addEventListener('click', handleClick));
 
 function computerMove() {
-  if (checkWin(humanColor) || checkWin(computerColor)) return;
+  if (!gameActive) return;
   const move = findBestMove();
   if (!move) return;
   const idx = move.r * SIZE + move.c;
@@ -424,13 +471,13 @@ function computerMove() {
   placeBall(cell, computerColor);
   playDing();
   if (checkWin(computerColor)) {
-    alert('Il computer ha vinto!');
+    endGame('Il computer ha vinto!');
     return;
   }
   humanTurn = true;
 }
-
-setupGame();
+startBtn.addEventListener('click', startGame);
+enableControls(true);
 </script>
 </body>
 </html>
