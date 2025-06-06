@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hex Game Board</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+#controls {
+  text-align: center;
+  margin-right: 20px;
+}
+#controls table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+#controls td {
+  padding: 4px 6px;
+}
+#controls select,
+#controls input,
+#controls button {
+  font-size: 16px;
+}
+.board {
+  --size: 40px;
+  position: relative;
+}
+.edge {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+}
+.edge.red {
+  color: #c00;
+}
+.edge.black {
+  color: #000;
+}
+.edge.top {
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.edge.bottom {
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.edge.left {
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.edge.right {
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.row {
+  display: flex;
+  height: calc(var(--size) * 0.866);
+}
+.cell {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #fafafa, #bbb 65%, #888);
+  margin: 0 -1px;
+  border: 2px solid #666;
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.5);
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+}
+
+.ball {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.6),
+              inset 0 -2px 4px rgba(0,0,0,0.6);
+}
+
+.ball.red {
+  background: radial-gradient(circle at 50% 30%, #fcc, #800);
+}
+
+.ball.black {
+  background: radial-gradient(circle at 50% 30%, #eee, #000);
+}
+</style>
+</head>
+<body>
+<div id="controls">
+  <table>
+    <tr>
+      <td>Colore:</td>
+      <td>
+        <select id="colorSelect">
+          <option value="red">Rosso</option>
+          <option value="black">Nero</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Chi inizia:</td>
+      <td>
+        <select id="startSelect">
+          <option value="human">Umano</option>
+          <option value="computer">Computer</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Livello:</td>
+      <td>
+        <input type="number" id="depthInput" min="1" value="1" style="width:3em;">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:center;">
+        <button id="startBtn">Inizia gioco</button>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="board">
+  <div class="edge red top">▼</div>
+  <div class="edge red bottom">▲</div>
+  <div class="edge black left">▶</div>
+  <div class="edge black right">◀</div>
+  <div class="row" style="margin-left: calc(var(--size) * 0.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 0.5);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 1.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 1.5);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 2.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 2.5);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 3.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 3.5);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 4.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 4.5);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+  <div class="row" style="margin-left: calc(var(--size) * 5.0);">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+</div>
+<script>
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTone(freq, duration) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+function playDing() {
+  playTone(880, 0.3);
+}
+
+function playBong() {
+  playTone(220, 0.5);
+}
+
+const SIZE = 11;
+const board = Array.from({ length: SIZE }, () => Array(SIZE).fill(''));
+const cells = document.querySelectorAll('.cell');
+
+const colorSelect = document.getElementById('colorSelect');
+const startSelect = document.getElementById('startSelect');
+const depthInput = document.getElementById('depthInput');
+const startBtn = document.getElementById('startBtn');
+
+let gameActive = false;
+
+cells.forEach((cell, i) => {
+  cell.dataset.r = Math.floor(i / SIZE);
+  cell.dataset.c = i % SIZE;
+});
+
+let humanColor = 'red';
+let computerColor = 'black';
+let humanTurn = true;
+let depthLimit = 2;
+
+function enableControls(enable) {
+  colorSelect.disabled = !enable;
+  startSelect.disabled = !enable;
+  depthInput.disabled = !enable;
+  startBtn.disabled = !enable;
+}
+
+function startGame() {
+  humanColor = colorSelect.value;
+  computerColor = humanColor === 'red' ? 'black' : 'red';
+  humanTurn = startSelect.value === 'human';
+  const x = parseInt(depthInput.value) || 1;
+  depthLimit = x * 2;
+  board.forEach(row => row.fill(''));
+  cells.forEach(cell => (cell.innerHTML = ''));
+  gameActive = true;
+  enableControls(false);
+  if (!humanTurn) setTimeout(computerMove, 100);
+}
+
+function endGame(msg) {
+  alert(msg);
+  enableControls(true);
+  gameActive = false;
+}
+
+function neighbors(r, c) {
+  const dirs = [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]];
+  const res = [];
+  for (const [dr, dc] of dirs) {
+    const nr = r + dr;
+    const nc = c + dc;
+    if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE) res.push([nr, nc]);
+  }
+  return res;
+}
+
+function checkWin(color) {
+  const visited = Array.from({ length: SIZE }, () => Array(SIZE).fill(false));
+  const queue = [];
+  if (color === 'red') {
+    for (let c = 0; c < SIZE; c++) {
+      if (board[0][c] === color) {
+        queue.push([0, c]);
+        visited[0][c] = true;
+      }
+    }
+    while (queue.length) {
+      const [r, c] = queue.shift();
+      if (r === SIZE - 1) return true;
+      for (const [nr, nc] of neighbors(r, c)) {
+        if (!visited[nr][nc] && board[nr][nc] === color) {
+          visited[nr][nc] = true;
+          queue.push([nr, nc]);
+        }
+      }
+    }
+  } else {
+    for (let r = 0; r < SIZE; r++) {
+      if (board[r][0] === color) {
+        queue.push([r, 0]);
+        visited[r][0] = true;
+      }
+    }
+    while (queue.length) {
+      const [r, c] = queue.shift();
+      if (c === SIZE - 1) return true;
+      for (const [nr, nc] of neighbors(r, c)) {
+        if (!visited[nr][nc] && board[nr][nc] === color) {
+          visited[nr][nc] = true;
+          queue.push([nr, nc]);
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function minimax(turnColor, depth, alpha, beta) {
+  if (checkWin(computerColor)) return Infinity;
+  if (checkWin(humanColor)) return -Infinity;
+  if (depth === 0) return 0;
+  const isComp = turnColor === computerColor;
+  let best = isComp ? -Infinity : Infinity;
+  outer: for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (board[r][c]) continue;
+      board[r][c] = turnColor;
+      const val = minimax(turnColor === 'red' ? 'black' : 'red', depth - 1, alpha, beta);
+      board[r][c] = '';
+      if (isComp) {
+        if (val > best) best = val;
+        if (best > alpha) alpha = best;
+        if (beta <= alpha) break outer;
+      } else {
+        if (val < best) best = val;
+        if (best < beta) beta = best;
+        if (beta <= alpha) break outer;
+      }
+    }
+  }
+  return best;
+}
+
+function findBestMove() {
+  let best = -Infinity;
+  let moves = [];
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      if (board[r][c]) continue;
+      board[r][c] = computerColor;
+      const score = minimax(humanColor, depthLimit - 1, -Infinity, Infinity);
+      board[r][c] = '';
+      if (score > best) {
+        best = score;
+        moves = [{ r, c }];
+      } else if (score === best) {
+        moves.push({ r, c });
+      }
+    }
+  }
+  if (moves.length === 0) return null;
+  return moves[Math.floor(Math.random() * moves.length)];
+}
+
+function placeBall(cell, color) {
+  const ball = document.createElement('div');
+  ball.className = 'ball ' + color;
+  cell.appendChild(ball);
+}
+
+function handleClick(e) {
+  if (!gameActive || !humanTurn) return;
+  const cell = e.currentTarget;
+  const r = parseInt(cell.dataset.r);
+  const c = parseInt(cell.dataset.c);
+  if (board[r][c]) {
+    playBong();
+    return;
+  }
+  board[r][c] = humanColor;
+  placeBall(cell, humanColor);
+  playDing();
+  if (checkWin(humanColor)) {
+    endGame('Hai vinto!');
+    return;
+  }
+  humanTurn = false;
+  setTimeout(computerMove, 100);
+}
+
+cells.forEach(cell => cell.addEventListener('click', handleClick));
+
+function computerMove() {
+  if (!gameActive) return;
+  const move = findBestMove();
+  if (!move) return;
+  const idx = move.r * SIZE + move.c;
+  const cell = cells[idx];
+  board[move.r][move.c] = computerColor;
+  placeBall(cell, computerColor);
+  playDing();
+  if (checkWin(computerColor)) {
+    endGame('Il computer ha vinto!');
+    return;
+  }
+  humanTurn = true;
+}
+startBtn.addEventListener('click', startGame);
+enableControls(true);
+</script>
+</body>
+</html>
