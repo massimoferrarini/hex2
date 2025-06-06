@@ -14,10 +14,16 @@ body {
   text-align: center;
   margin-right: 20px;
 }
+#controls table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+#controls td {
+  padding: 4px 6px;
+}
 #controls select,
 #controls input,
 #controls button {
-  margin: 0 5px;
   font-size: 16px;
 }
 .board {
@@ -94,22 +100,37 @@ body {
 </head>
 <body>
 <div id="controls">
-  <label>Colore:
-    <select id="colorSelect">
-      <option value="red">Rosso</option>
-      <option value="black">Nero</option>
-    </select>
-  </label>
-  <label>Chi inizia:
-    <select id="startSelect">
-      <option value="human">Umano</option>
-      <option value="computer">Computer</option>
-    </select>
-  </label>
-  <label>x:
-    <input type="number" id="depthInput" min="1" value="1" style="width:3em;">
-  </label>
-  <button id="startBtn">Inizia gioco</button>
+  <table>
+    <tr>
+      <td>Colore:</td>
+      <td>
+        <select id="colorSelect">
+          <option value="red">Rosso</option>
+          <option value="black">Nero</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Chi inizia:</td>
+      <td>
+        <select id="startSelect">
+          <option value="human">Umano</option>
+          <option value="computer">Computer</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Livello:</td>
+      <td>
+        <input type="number" id="depthInput" min="1" value="1" style="width:3em;">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:center;">
+        <button id="startBtn">Inizia gioco</button>
+      </td>
+    </tr>
+  </table>
 </div>
 <div class="board">
   <div class="edge red top">▼</div>
@@ -332,10 +353,7 @@ function endGame(msg) {
 }
 
 function neighbors(r, c) {
-  const even = r % 2 === 0;
-  const dirs = even
-    ? [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]]
-    : [[-1, -1], [-1, 0], [0, -1], [0, 1], [1, -1], [1, 0]];
+  const dirs = [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, 0], [1, 1]];
   const res = [];
   for (const [dr, dc] of dirs) {
     const nr = r + dr;
